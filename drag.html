@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽测试</title>
+<style>
+body{margin:0;padding:0;}
+.panel {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1280px;
+	height: 720px;
+	background: #ddd;
+}
+[data-drag] {
+	cursor: move;
+}
+.panel2{position: absolute;left: 100px;top: 100px;width: 800px;height: 400px;background: white;}
+.target{position: absolute;width: 200px;height: 100px;background: #bbb;}
+.target1{left: 50px; top: 550px;}
+.target2{left: 400px; top: 550px;}
+.target3{left: 10px; top: 10px;}
+.target4{left: 300px; top: 10px;}
+
+
+
+
+
+
+
+/* 纯css实现的箭头 */
+.xei-arrow-x {
+    position: absolute;
+    height: 2px;
+}
+.xei-arrow-y {
+    position: absolute;
+    width: 2px;
+}
+.xei-arrow-x, .xei-arrow-y{
+    background-color: #FF6D6D;
+}
+.xei-arrow-x .arrow {
+    position: absolute;
+    top: 0px;
+    background-color: inherit;
+}
+.xei-arrow-y .arrow {
+    position: absolute;
+    left: 0px;
+    background-color: inherit;
+}
+.xei-arrow-x .left-arrow {left: 0;}
+.xei-arrow-x .right-arrow {right: 0;}
+.xei-arrow-y .left-arrow {top: 0;}
+.xei-arrow-y .right-arrow {bottom: 0;}
+.xei-arrow-x .arrow:before,.xei-arrow-x .arrow:after,.xei-arrow-y .arrow:before,.xei-arrow-y .arrow:after {
+    content: '';
+    display: block;
+    background-color: inherit;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.xei-arrow-x .arrow:before,.xei-arrow-x .arrow:after{
+    -webkit-transform-origin: left center;
+    transform-origin: left center;
+    width: 20px;
+    height: 2px;
+}
+.xei-arrow-y .arrow:before,.xei-arrow-y .arrow:after{
+	width: 2px;
+    height: 20px;
+    -webkit-transform-origin: top;
+    transform-origin: top;
+}
+.xei-arrow-x .left-arrow:before,.xei-arrow-y .left-arrow:before {
+    -webkit-transform: rotateZ(-20deg);
+    transform: rotateZ(-20deg);
+}
+.xei-arrow-x .left-arrow:after,.xei-arrow-y .left-arrow:after {
+    -webkit-transform: rotateZ(20deg);
+    transform: rotateZ(20deg);
+}
+.xei-arrow-x .right-arrow:before,.xei-arrow-y .right-arrow:before {
+    -webkit-transform: rotateZ(200deg);
+    transform: rotateZ(200deg);
+}
+.xei-arrow-x .right-arrow:after,.xei-arrow-y .right-arrow:after {
+    -webkit-transform: rotateZ(160deg);
+    transform: rotateZ(160deg);
+}
+.xei-arrow-x .text,.xei-arrow-y .text {
+	position: absolute;
+    color: #FF4700;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.72);
+    font-family: 'Microsoft Yahei';
+    font-size: 18px;
+}
+.xei-arrow-x .text {
+    left: 50%;
+    top: -28px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.xei-arrow-y .text {
+    top: 50%;
+    left: 15px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.xei-resize-tip {
+    position: absolute;
+    left: 400px;
+    top: 516px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    background-color: #000;
+    color: #FF0;
+    font-family: 'Microsoft Yahei';
+    padding: 0 5px;
+    border-radius: 3px;
+}
+</style>
+</head>
+<body>
+	
+	<div class="panel">
+		
+		<div data-drag="" data-resize="" class="target target1"></div>
+		<div data-drag="" data-resize="" class="target target2"></div>
+		<div class="panel2" data-drag="" data-resize="" >
+			<div data-drag="" data-resize="" class="target target3"></div>
+			<div data-drag="" data-resize="" class="target target4"></div>
+		</div>
+
+	</div>
+	<script type="text/javascript" src="js/xei.js" ></script>
+	<script src="http://jquery.liuxianan.com"></script>
+	<script>
+	$.fn.extend(
+	{
+		/**
+		 * 开启拖拽，被拖拽元素必须是position:absolute，否则无效
+		 */
+		enableDrag: function(selector, showTip)
+		{
+			selector = selector || '[data-drag]';
+			showTip = showTip || true;
+			var currentTarget, currentOffset = [0, 0], parentPosition = {}, that = this;
+			this.on('mousedown.xei.drag', selector, function(e)
+			{
+			    currentTarget = this;
+				currentOffset = [e.offsetX, e.offsetY];
+				parentPosition = this.offsetParent.getBoundingClientRect();
+				if(showTip)
+				{
+					var html = '<div class="xei-arrow-x"><div class="arrow left-arrow"></div><div class="arrow right-arrow"></div><div class="text">0px</div></div>';
+					html += '<div class="xei-arrow-y"><div class="arrow left-arrow"></div><div class="arrow right-arrow"></div><div class="text">0px</div></div>';
+					$(html).appendTo($(this.offsetParent));
+				}
+			}).on('mousemove.xei.drag',  function(e)
+			{
+				if(currentTarget && $._xei_resize_target == currentTarget)
+				{
+					currentTarget = undefined;
+					return;
+				}
+				// 之所以mousemove和mouseup没有添加selector，是因为如果鼠标移动过快会导致移出目标对象从而导致事件无法触发，给人的感觉就是卡顿
+				if(!currentTarget) return;
+				var left = e.clientX - parentPosition.left - currentOffset[0];
+				var top = e.clientY - parentPosition.top - currentOffset[1];
+				$(currentTarget).css('left', left).css('top', top);
+				if(showTip)
+				{
+					$('.xei-arrow-x').css('width', left).css('top', top+$(currentTarget).height()/2);
+					$('.xei-arrow-x .text').html(left+'px');
+					$('.xei-arrow-y').css('height', top).css('left', left+$(currentTarget).width()/2);
+					$('.xei-arrow-y .text').html(top+'px');
+				}
+			}).on('mouseup.xei.drag', function()
+			{
+				currentTarget = undefined;
+				$('.xei-arrow-x').remove();
+				$('.xei-arrow-y').remove();
+			});
+			return this;
+		},
+		disableDrag: function()
+		{
+			this.off('.xei.drag');
+			return this;
+		},
+		enableResize: function(selector, showTip)
+		{
+			selector = selector || '[data-resize]';
+			showTip = showTip || true;
+			var currentTarget, targetPosition, offset = 5, resizeX = false, resizeY = false;
+			var that = this;
+			var targetCursor, wrapperCursor;
+			this.on('mousemove.xei.resize', selector, function(e)
+			{
+				if(currentTarget) return; // 如果正在resize就不需要继续了
+				targetPosition = this.getBoundingClientRect();
+				resizeX = (e.clientX - targetPosition.left) >= ($(this).width() - offset);
+				resizeY = (e.clientY - targetPosition.top) >= ($(this).height() - offset);
+				
+				if(!targetCursor) targetCursor = $(this).css('cursor');
+				if(!wrapperCursor) wrapperCursor = that.css('cursor');
+				
+				if(resizeX || resizeY) this.style.cursor = (resizeY?'s':'') + (resizeX?'e':'') + '-resize';
+				else this.style.cursor = targetCursor;
+			});
+			this.on('mousedown.xei.resize', selector, function(e)
+			{
+				if(!resizeX && !resizeY) return;
+				currentTarget = this;
+				that.css('cursor', $(currentTarget).css('cursor'));
+				$._xei_resize_target = currentTarget;
+				if(showTip)
+				{
+					$('<div class="xei-resize-tip" style="position:absolute;left:'+currentTarget.offsetLeft+'px;top:'+(currentTarget.offsetTop-30)+'px;height:30px;"></div>').appendTo($(this.offsetParent));
+				}
+			}).on('mousemove.xei.resize',  function(e)
+			{
+				if(!currentTarget) return;
+				if(resizeX) $(currentTarget).css('width', e.clientX - targetPosition.left);
+				if(resizeY) $(currentTarget).css('height', e.clientY - targetPosition.top);
+				if(showTip)
+				{
+					$('.xei-resize-tip').html('宽度：'+$(currentTarget).width()+'px，高度：'+$(currentTarget).height()+'px');
+				}
+				e.preventDefault();
+			}).on('mouseup.xei.resize', function()
+			{
+				that.css('cursor', wrapperCursor);
+				currentTarget = undefined;
+				resizeX = false;
+				resizeY = false;
+				$._xei_resize_target = currentTarget;
+				$('.xei-resize-tip').remove();
+			});
+			return this;
+		}
+	});
+	$('body').enableDrag();
+	$('body').enableResize();
+	</script>
+</body>
+</html>

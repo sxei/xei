@@ -1,0 +1,459 @@
+html {
+	font-size: 50px;
+}
+body {
+	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+html,body,.body-wrapper {
+	width: 100%;
+	height: 100%;
+}
+
+/* 覆盖mui默认样式 */
+.mui-table-view-cell {
+    padding: 0.24rem 0.3rem;
+}
+.mui-table-view-cell > a:not(.mui-btn) {
+    margin: -0.24rem -0.3rem;
+}
+/* 默认没有单位，这里加上px，避免由于html的字体变化影响这个 */
+.mui-table-view-cell:after {
+    -webkit-transform: scaleY(.5px);
+    transform: scaleY(.5px);
+}
+.mui-table-view .mui-media-left {
+    float: left;
+    width: .8rem;
+    height: .8rem;
+    margin-right: .2rem;
+}
+.mui-table-view .mui-media-center {
+    float: left;
+    width: 100%;
+    margin-left: -1rem;
+    padding-left: 1rem;
+    padding-right: 1.4rem;
+    margin-right: -1.4rem;
+    line-height: 0.42rem;
+    overflow: hidden;
+}
+.mui-media-center p {
+    font-size: .28rem;
+    color: #8f8f94;
+}
+.mui-table-view .mui-media-right {
+    float: left;
+    line-height: .8rem;
+    height: 0.8rem;
+    color: #999;
+    font-size: 0.3rem;
+    font-style: normal;
+    margin-right: 0.4rem;
+}
+.mui-navigate-right:after, .mui-push-right:after {
+    right: .3rem;
+}
+
+/* mui 通知样式 */
+.mui-toast-container {
+    position: fixed;
+    z-index: 9999;
+    bottom: 50px;
+    width: 100%;
+    -webkit-animation: mui-toast 0.2s linear 0s 1;
+    animation: mui-toast 0.2s linear 0s 1;
+}
+.mui-toast-message {
+    font-size: 16px;
+    width: 270px;
+    margin: 5px auto;
+    padding: 12px;
+    text-align: center;
+    color: #FFF;
+    border-radius: 7px;
+    background-color: rgba(0,0,0,0.8);
+}
+@keyframes mui-toast{
+	from{bottom:20px;opacity: 0.5;}
+	to{bottom: 50px;opacity: 1;}
+}
+@-webkit-keyframes mui-toast{
+	from{bottom:20px;opacity: 0.5;}
+	to{bottom: 50px;opacity: 1;}
+}
+
+
+
+/* 通用的触摸反馈样式，如需自定义只需覆盖active样式即可 */
+.lt-btn {
+	background-color: transparent;
+}
+.lt-btn.active {
+    /*background-color: #ccc !important;*/
+    background-color: #F3F2F2 !important;
+}
+.lt-btn.disabled {
+	opacity: 0.3;
+}
+/* 默认头像 */
+.default-avatar {
+    background-image: url(../resources/images/avatar/avatar_default.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: .8rem;
+    height: .8rem;
+}
+
+
+
+/* 顶部导航栏 */
+.lt-bar-top {
+    position: relative;
+    height: 0.9rem;
+    line-height: 0.9rem;
+    -webkit-box-shadow: 0 1px 6px #ccc;
+    box-shadow: 0 1px 6px #ccc;
+    background-color: #f7f7f7;
+    padding: 0 0.3rem;
+    font-size: 0.36rem;
+    /*防止box-shadow被lt-content遮住*/
+    z-index: 10;
+}
+.header-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 0 0.3rem;
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+}
+.header-wrapper.current {
+    opacity: 1;
+}
+.lt-bar-top .lt-btn {
+    display: inline-block;
+    width: 1rem;
+    text-align: center;
+}
+.lt-bar-top .fa {
+    /*margin: 0 .1rem;*/
+}
+
+
+
+
+/* 顶部导航栏变蓝色样式 */
+.lt-bar-top {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: #F83233;
+    color: #FFF;
+}
+.lt-bar-top .lt-btn {
+    color: #FFF;
+}
+.lt-bar-top .lt-btn.active {
+    background-color: #C51E1E !important;
+}
+
+
+
+
+
+/* 针对这3个特殊的图标，临时用mui的图标代替 */
+/*.lt-bar-top .fa.fa-arrow-left,.lt-bar-top .fa.fa-plus {
+    font-family: Muiicons;
+    font-size: 0.5rem;
+}
+.lt-bar-top .fa-arrow-left:before {
+    content: '\e582';
+}
+.lt-bar-top .fa-plus:before {
+    content: '\e468';
+}
+.lt-bar-top .fa.fa-check {
+    font-size: 0.5rem;
+    font-style: italic;
+    font-family: initial;
+}
+.lt-bar-top .fa-check:before {
+    content: '√';
+}*/
+.lt-bar-top .fa-arrow-left:before {
+    content: '\f29b';
+    font-size: 1.5em;
+}
+.lt-bar-top .fa-check:before {
+    content: '\f29c';
+    font-size: 1.5em;
+}    
+.lt-bar-top .fa-plus:before {
+    content: '\f29d';
+    font-size: 1.5em;
+}
+
+
+
+
+
+
+.lt-bar-top .left {
+    position: absolute;
+    z-index: 11;
+    left: 0rem;
+}
+.lt-bar-top .lt-bar-title {
+    position: absolute;
+    left: 0.2rem;
+    right: 0.2rem;
+    top: 0;
+    width: auto;
+    height: 100%;
+    text-align: center;
+    z-index: 10;
+}
+.lt-bar-top .right {
+    position: absolute;
+    z-index: 11;
+    right: 0rem;
+}
+
+
+/* 底部导航栏 */
+.lt-bar-bottom {
+    position: absolute;
+    bottom: 0;
+    height: 1.2rem;
+    width: 100%;
+    background-color: #f7f7f7;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    display: table;
+    table-layout: fixed;
+	overflow: hidden;
+}
+.lt-tab-nav {
+    width: 25%;
+    text-align: center;
+    font-size: 0.24rem;
+    display: table-cell;
+    vertical-align: middle;
+    color: #929292;
+    overflow: hidden;
+}
+.lt-tab-nav.current {
+    color: #007aff;
+}
+.lt-tab-nav .fa {
+    font-size: 0.48rem;
+    height: 0.48rem;
+    line-height: .48rem;
+}
+.lt-tab-nav .tab-nav-label {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+/* 中间tab选项卡 */
+.lt-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    height: calc(100% - 1.9rem);
+    overflow: hidden;
+}
+.lt-tab-panel-wrapper {
+	width: auto;
+    height: 100%;
+    white-space: nowrap;
+    /* 消除display:inline-block产生的间隙 */
+    font-size: 0;
+    /* 去除低版本chrome最小字体限制 */
+    -webkit-text-size-adjust: none;
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
+    visibility: hidden;
+}
+.lt-tab-panel-wrapper.show {
+	visibility: visible;
+} 
+/* 注释选项卡之间切换的动画，因为部分手机上不是很流畅 */
+.lt-tab-panel-wrapper.animate {
+    /*-webkit-transition: all 0.3s;
+    transition: all 0.3s;*/
+}
+.lt-tab-panel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    font-size: .36rem;
+    white-space: normal;
+    vertical-align: top;
+}
+
+
+
+
+
+
+/* 安徽党教样式开始 */
+.lt-grid-view {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #FFF;
+}
+.lt-grid-view:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.lt-grid-view-cell {
+    float: left;
+    width: 33.333333%;
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+}
+.lt-grid-view-cell > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #5C5C5C;
+}
+.lt-grid-view-cell > a > img {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.35rem;
+}
+.lt-grid-view-cell > a > span {
+    display: block;
+    margin-bottom: 0.35rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    font-size: 0.24rem;
+}
+
+
+
+
+.mui-slider-title {
+    background-color: rgba(0, 0, 0, 0.45);
+    color: #FFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.55);
+}
+
+
+
+/* 新闻列表 */
+.lt-news-view {
+    /* background-color: #FFF; */
+}
+.lt-news-view-cell {
+    overflow: hidden;
+    background-color: #FFF;
+    margin: 10px 0;
+    height: 90px;
+}
+.lt-news-view-cell > a {
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: #333;
+    padding: 10px 10px;
+}
+.lt-news-view-cell .news-img {
+    width: 27%;
+    float: left;
+    height: 1.4rem;
+    margin-right: 10px;
+    background-position: center;
+    background-size: cover;
+}
+.lt-news-view-cell .news-info {
+    display: inline-block;
+    width: 69%;
+}
+.lt-news-view-cell .title {
+    margin-bottom: 6px;
+    font-size: 16px;
+    max-height: 44px;
+    overflow: hidden;
+}
+.lt-news-view-cell .desc {
+    font-size: 12px;
+    color: #999;
+}
+.lt-news-view-cell .desc .number {
+    color: #FD5907;
+    margin: 0 2px;
+}
+.lt-content {
+	overflow-y: auto;
+}
+
+
+.mui-slider .mui-slider-group .mui-slider-item img {
+    width: 100%;
+    /* 7.2*9/16 */
+    height: 4.05rem;
+}
+
+
+
+
+
+
+.lt-simple-menu {
+    position: fixed;
+    top: 1.1rem;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.72);
+    color: #E8E8E8;
+    padding: 5px 0;
+    z-index: 100;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    -webkit-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+    -webkit-transform-origin: 50% -10%;
+    transform-origin: 50% -10%;
+}
+.lt-simple-menu.show {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+}
+.lt-simple-menu:before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    right: 10px;
+    top: -10px;
+    border-left: solid 12px rgba(0, 0, 0, 0);
+    border-right: solid 12px rgba(0, 0, 0, 0);
+    border-bottom: solid 10px rgba(0, 0, 0, 0.72);
+}
+.lt-simple-menu .item {
+    padding: 10px 15px;
+    display: block;
+    color: inherit;
+}
+.lt-simple-menu .item.active {
+    background-color: rgba(255, 255, 255, 0.65);
+    color: #000;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.51);
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>图片懒加载示例</title>
+<style>
+body{font-size: 18px;}
+.sample {width: 100%;height:200px;margin: 20px 0;}
+div.sample {
+	background-size: cover;
+	background-position: center;
+	/* 配置一张图片尚未加载时的默认图片 */
+	background-image: url('images/thumbnail.jpg');
+}
+</style>
+</head>
+<body>
+	<h1>图片懒加载示例：</h1>
+	<div class="panel">
+		<!-- 只要给div或者img添加data-lazy-src属性即可实现图片懒加载 -->
+		<div class="sample" data-lazy-src="images/00.jpg"></div>
+		<div class="sample" data-lazy-src="images/01.jpg"></div>
+		<img class="sample" data-lazy-src="images/02.jpg" src="images/thumbnail.jpg" />
+		<img class="sample" data-lazy-src="images/03.jpg" src="images/thumbnail.jpg" />
+		<div class="sample" data-lazy-src="images/04.jpg"></div>
+		<div class="sample" data-lazy-src="images/05.jpg"></div>
+	</div>
+	<script src="http://jquery.liuxianan.com"></script>
+	<script type="text/javascript" src="js/xei.js" ></script>
+</body>
+</html>

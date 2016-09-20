@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>工具</title>
+	
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="css/xei.css" />
+<style>
+textarea[name="content"] {
+	font-family: "courier new";
+	font-size: 16px;
+	tab-size: 4;
+}
+</style>
+</head>
+<body>
+	
+	<div class="container">
+		<h1>JSON格式化</h1>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_format_json" data-toggle="tab">JSON格式化</a></li>
+			<li class=""><a href="#tab_format_css" data-toggle="tab">CSS格式化</a></li>
+		</ul>
+		<div class="tab-content">
+			<div id="tab_format_json" class="tab-pane active">
+				<div style="margin-top: 10px;">
+					<div class="form-group">
+						<textarea name="content" class="form-control" style="height:500px;"></textarea>
+					</div>
+					<div class="form-inline">
+						<a href="javascript:;" class="btn btn-default" id="btn_format_json">格式化</a>
+						<a href="javascript:;" class="btn btn-default" id="btn_format_json2">复制到剪贴板</a>
+						<label for="format_json_indent">缩进：</label>
+						<select id="format_json_indent" class="form-control">
+							<option value="	">tab</option>
+							<option value="  ">2个空格</option>
+							<option value="    ">4个空格</option>
+						</select>
+						<label><input id="format_json_new_line" type="checkbox" checked="checked"/>花括号换行</label>
+					</div>
+				</div>
+			</div>
+			<div id="tab_format_css" class="tab-pane">
+				开发中
+			</div>
+		</div>
+	</div>
+	
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/xei.js" ></script>
+	<script type="text/javascript" src="js/main.js" ></script>
+	<script>
+	function formatJSON(json)
+	{
+		json = typeof json == 'string' ? json : $('#tab_format_json [name="content"]').val();
+		if(!json) return;
+		var result = xei.formatJSON(json, $('#format_json_indent').val(), !$('#format_json_new_line').prop('checked'));
+		$('#tab_format_json [name="content"]').val(result);
+	}
+	$('#btn_format_json').on('click', formatJSON);
+	$('#format_json_indent').on('change', formatJSON);
+	$('#format_json_new_line').on('change', formatJSON);
+	$('#tab_format_json [name="content"]').on('paste', function(event)
+	{
+		var e = event.originalEvent;
+		var json = e.clipboardData.getData('text');
+		formatJSON(json);
+		e.preventDefault;
+		return false;
+	});
+	</script>
+</body>
+</html>
