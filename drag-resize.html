@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽测试</title>
+	<link rel="stylesheet" href="css/jquery-drag-resize.css" />
+<style>
+body{margin:0;padding:0;}
+.panel {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1280px;
+	height: 720px;
+	background: #ddd;
+}
+.panel2{position: absolute;left: 100px;top: 100px;width: 800px;height: 400px;background: white;}
+.target{position: absolute;width: 200px;height: 100px;background: #bbb;}
+.target1{left: 50px; top: 550px;}
+.target2{left: 400px; top: 550px;}
+.target3{left: 10px; top: 10px;}
+.target4{left: 300px; top: 10px;}
+
+</style>
+</head>
+<body>
+	
+	<div class="panel">
+		
+		<div data-drag="" data-resize="" class="target target1"></div>
+		<div data-drag="" data-resize="" class="target target2"></div>
+		<div class="panel2" data-drag="" data-resize="" >
+			<div data-drag="" data-resize="" class="target target3"></div>
+			<div data-drag="" data-resize="" class="target target4"></div>
+		</div>
+
+	</div>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery-drag-resize.js" ></script>
+	<script>
+	$('body').enableDrag();
+	$('body').enableResize();
+	</script>
+</body>
+</html>

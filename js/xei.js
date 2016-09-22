@@ -403,20 +403,34 @@
 		},
 		/**
 		 * 给URL设置参数，如果已经存在，替换之，会自动处理存在hash的情况
-		 * @param {Object} name
-		 * @param {Object} value
-		 * @param {Object} url
+		 * @param {Object} name 参数名
+		 * @param {Object} value 参数值
+		 * @param {Object} url 如果不传默认当前页面URL
 		 */
 		setParam: function(name, value, url)
 		{
+			url = this.delParam(name, url || location.href); // 无论如何，先删除可能已经存在的参数
+			var temp = url.split('#'); // 处理存在hash的情况
+			return temp[0] + (url.indexOf('?')<0?'?':'&') + name + '=' + value + (temp[1]?('#'+temp[1]):'');
+		},
+		/**
+		 * 从一个URL中删除某一个或者多个参数，会正确处理包含hash的情况
+		 * @param {Object} name 可以是单个参数，也可以是参数数组
+		 * @param {Object} url 如果不传默认当前页面URL
+		 */
+		delParam: function(name, url)
+		{
+			name = name instanceof Array ? name : [name];
 			url = url || location.href;
-			var results = /(^[^#]*)(#.*)$/g.exec(url);
-			var hash = results ? results[2] : '';
-			url = results ? results[1] : url;
-			var reg = new RegExp('(\\?|&)'+name+'=(.*?)(&|#|$)', 'g');
-			if(url.indexOf('?')<0) return url + '?' + name + '=' + value + hash;
-			if(reg.test(url)) return url.replace(reg, '$1'+name+'='+value+'$3') + hash;
-			return url + '&' + name + '=' + value + hash;
+			for(var i=0; i<name.length; i++)
+			{
+				var reg = new RegExp('(\\?|&)'+name[i]+'=(.*?)(&|#|$)', 'g');
+				url = url.replace(reg, function(m, $1, $2, $3)
+				{
+					return $3 == '&' ? $1 : ($3 == '#' ? $3 : '');
+				});
+			}
+			return url;
 		}
 	});
 })(xei);

@@ -1,0 +1,97 @@
+[data-drag] {
+	cursor: move;
+}
+/* 纯css实现的箭头 */
+.xei-arrow-x {
+    position: absolute;
+    height: 2px;
+}
+.xei-arrow-y {
+    position: absolute;
+    width: 2px;
+}
+.xei-arrow-x, .xei-arrow-y{
+    background-color: #FF6D6D;
+}
+.xei-arrow-x .arrow {
+    position: absolute;
+    top: 0px;
+    background-color: inherit;
+}
+.xei-arrow-y .arrow {
+    position: absolute;
+    left: 0px;
+    background-color: inherit;
+}
+.xei-arrow-x .left-arrow {left: 0;}
+.xei-arrow-x .right-arrow {right: 0;}
+.xei-arrow-y .left-arrow {top: 0;}
+.xei-arrow-y .right-arrow {bottom: 0;}
+.xei-arrow-x .arrow:before,.xei-arrow-x .arrow:after,.xei-arrow-y .arrow:before,.xei-arrow-y .arrow:after {
+    content: '';
+    display: block;
+    background-color: inherit;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.xei-arrow-x .arrow:before,.xei-arrow-x .arrow:after{
+    -webkit-transform-origin: left center;
+    transform-origin: left center;
+    width: 20px;
+    height: 2px;
+}
+.xei-arrow-y .arrow:before,.xei-arrow-y .arrow:after{
+	width: 2px;
+    height: 20px;
+    -webkit-transform-origin: top;
+    transform-origin: top;
+}
+.xei-arrow-x .left-arrow:before,.xei-arrow-y .left-arrow:before {
+    -webkit-transform: rotateZ(-20deg);
+    transform: rotateZ(-20deg);
+}
+.xei-arrow-x .left-arrow:after,.xei-arrow-y .left-arrow:after {
+    -webkit-transform: rotateZ(20deg);
+    transform: rotateZ(20deg);
+}
+.xei-arrow-x .right-arrow:before,.xei-arrow-y .right-arrow:before {
+    -webkit-transform: rotateZ(200deg);
+    transform: rotateZ(200deg);
+}
+.xei-arrow-x .right-arrow:after,.xei-arrow-y .right-arrow:after {
+    -webkit-transform: rotateZ(160deg);
+    transform: rotateZ(160deg);
+}
+.xei-arrow-x .text,.xei-arrow-y .text {
+	position: absolute;
+    color: #FF4700;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.72);
+    font-family: 'Microsoft Yahei';
+    font-size: 18px;
+}
+.xei-arrow-x .text {
+    left: 50%;
+    top: -28px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.xei-arrow-y .text {
+    top: 50%;
+    left: 15px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.xei-resize-tip {
+    position: absolute;
+    left: 400px;
+    top: 516px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    background-color: #000;
+    color: #FF0;
+    font-family: 'Microsoft Yahei';
+    padding: 0 5px;
+    border-radius: 3px;
+}
