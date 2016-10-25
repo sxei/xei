@@ -492,51 +492,36 @@
 	$.extend(
 	{
 		/**
-		 * 从js中获取cookie
-		 * 由于标清机顶盒decodeURI有问题，所以获取cookie时不再自动URL解码
-		 * 存cookie的时候，java代码里面存中文的话就URL编码一下，js获取时不做解码
+		 * 获取cookie
 		 * @param cookieName cookie名字
 		 * @param defaultValue 默认值
-		 * @param parseNumber 是否强转数字
-		 * @param isUnescape 是否使用unescape来解码，注意，这个一般只用来解码“:/”等之类的简单符号，对于中文，整个机顶盒都甭想
+		 * @param parseToNumber 是否强转数字
 		 * @returns
 		 */
-		getCookie: function(cookieName, defaultValue, parseNumber, isUnescape)
+		getCookie: function(cookieName, defaultValue, parseToNumber, isUnescape)
 		{
 			var temp = new RegExp('(^|;| )'+cookieName+'=([^;]*)(;|$)', 'g').exec(document.cookie);
-			if(temp!=null)
-			{
-				var value=temp[2];
-				if(value === '""')//使用Java删除cookie时并不会立即删除，而是变成双引号，update 20150420
-					return defaultValue;
-				if(parseNumber == true)
-					return parseFloat(value);
-				if(isUnescape)//update 20150319，参数名和默认的unescape方法名重了，所以改为isUnescape
-					return unescape(value);//URL解码，暂时用unescape代替，具体有没有问题有待日后观察
-				return value;
-			}
-			return defaultValue;
+			if(temp == null) return defaultValue;
+			var value = temp[2];
+			// Java后台删除cookie时并不会真正删除，而是变成双引号，update 20150420
+			if(value == '' || value == '""') return defaultValue;
+			if(parseToNumber == true) return parseFloat(value);
+			return value;
 		},
 		/**
-		 * 设置cookie
+		 * 设置cookie，对于中文和特殊字符必须先进行编码
 		 * @param name cookie名称
 		 * @param value cookie内容，注意cookie内容不能有分号、逗号、等号、空格等特殊字符，中文就更不可以，所以注意使用escape
 		 * @param day cookie失效天数，默认30天
-		 * @param path cookie的作用范围，默认当前项目下
+		 * @param path cookie的作用范围，默认“/”
 		 */
 		setCookie: function(name, value, day, path)
 		{
-			day = day ==undefined ? 30 : day;
-			//TODO 这里记得要改
-			path = path == undefined ? '/' : path;
+			day = day || 30;
+			path = path || '/';
 			var str = name + '=' + value + '; ';
-			if(day)
-			{
-				var date = new Date(); 
-				date.setTime(date.getTime()+day*24*3600*1000);
-				str += 'expires='+date.toGMTString()+'; ';
-			}
-			if(path) str += 'path='+path;
+			if(day) str += 'expires=' + new Date(Date.now() + day * 24 * 3600 * 1000).toGMTString() + '; ';
+			if(path) str += 'path=' + path;
 			document.cookie = str;//注意，cookie这样设置并不会覆盖之前所有的cookie！除非同名同path
 		},
 		/**
