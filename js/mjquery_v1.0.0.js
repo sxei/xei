@@ -519,7 +519,7 @@
 		 */
 		append: function(content)
 		{
-			return this.domManip(content, function(elem) { this.append(elem); });
+			return this.domManip(content, function(elem) { this.appendChild(elem); });
 		},
 		/**
 		 * 前面插入内容
