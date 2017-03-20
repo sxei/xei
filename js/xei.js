@@ -424,10 +424,15 @@
 			url = url || location.href;
 			for(var i=0; i<name.length; i++)
 			{
-				var reg = new RegExp('(\\?|&)'+name[i]+'=(.*?)(&|#|$)', 'g');
-				url = url.replace(reg, function(m, $1, $2, $3)
+				/* 这种方法的缺点是最多只能删除一个参数 */
+				/*url = url.replace(new RegExp('(\\?|&)'+name[i]+'=(.*?)(&|#|$)', 'g'), function(m, $1, $2, $3)
 				{
 					return $3 == '&' ? $1 : ($3 == '#' ? $3 : '');
+				});*/
+				/* 这种方法可以删除多个参数，但是会出现"index.html?&a=1#abc"的情况，当然这种情况是合法的 */
+				url = url.replace(new RegExp('(\\?|&)'+name[i]+'=(.*?)(?=&|#|$)', 'g'), function(m, $1, $2)
+				{
+					return $1 == '?' ? '?' : '';
 				});
 			}
 			return url;
