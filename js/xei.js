@@ -844,3 +844,89 @@
 		}
 	});
 })(xei);
+
+
+
+
+/**
+ * =====================================
+ *            键值封装
+ * =====================================
+ */
+;(function($)
+{
+	// 封装所有的键值，使用示例：xei.keys.ctrl == 17
+	var keys = 
+	{
+		backspace: 8,
+		tab: 9,
+		clear: 12,
+		enter: 13,
+		shift: 16,
+		ctrl: 17,
+		alt: 18,
+		esc: 27,
+		space: 32,
+		pageup: 33,
+		pagedown: 34,
+		end: 35,
+		home: 36,
+		left: 37,
+		up: 38,
+		right: 39,
+		down: 40,
+		insert: 45,
+		delete: 46
+	};
+	// 数字0-9
+	for(var i=48; i<=57; i++)
+	{
+		keys[String.fromCharCode(i)] = i;
+	}
+	// 字母a-z
+	for(var i=65; i<=90; i++)
+	{
+		keys[String.fromCharCode(i).toLowerCase()] = i;
+	}
+	// 小键盘数字0-9，这里用n0-n9表示
+	for(var i=96; i<=105; i++)
+	{
+		keys['n' + (i - 96)] = i;
+	}
+	// f1-f12功能键
+	for(var i=112; i<=123; i++)
+	{
+		keys['f' + (i - 111)] = i;
+	}
+	$.extend(
+	{
+		keys: keys
+	});
+})(xei);
+
+
+
+
+/**
+ * =====================================
+ *            键值封装
+ * =====================================
+ */
+;(function($)
+{
+	/**
+	 * 获取身份证号第18位校验码
+	 * @params cid 身份证号码，17或18位均可
+	 */
+	function getIdCardLastChar(cid)
+	{
+		if(!cid || cid.length <17) return '';
+		var weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; // 十七位数字权重
+		var validates = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']; // 校验码
+		var sum = 0;
+		for(var i=0; i<17; i++) sum += parseInt(cid.charAt(i)) * weights[i];
+		return validates[sum % 11];
+	}
+	xei.getIdCardLastChar = getIdCardLastChar;
+})(xei);
+
