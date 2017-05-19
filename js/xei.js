@@ -782,6 +782,24 @@
 				}
 			}
 			return Math.random();
+		},
+		/**
+		 * 填充数字到指定长度，比如fixNumber(42, 4)返回'0042'
+		 * @param num 可以是int或者string类型的数字
+		 * @param length 目标长度，如果目标长度比当前长度小，则忽略
+		 * @return string
+		 */
+		fixNumber: function(num, length)
+		{
+			if(typeof num == 'number') num = num + '';
+			if(num.length < length)
+			{
+				for(var i=num.length; i< length; i++)
+				{
+					num = '0' + num;
+				}
+			}
+			return num;
 		}
 	});
 })(xei);
@@ -909,7 +927,7 @@
 
 /**
  * =====================================
- *            键值封装
+ *            身份证校验
  * =====================================
  */
 ;(function($)
@@ -929,4 +947,3 @@
 	}
 	xei.getIdCardLastChar = getIdCardLastChar;
 })(xei);
-
