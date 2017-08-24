@@ -519,24 +519,27 @@
 		 * @param value cookie内容，注意cookie内容不能有分号、逗号、等号、空格等特殊字符，中文就更不可以，所以注意使用escape
 		 * @param day cookie失效天数，默认30天
 		 * @param path cookie的作用范围，默认“/”
+		 * @param domain cookie作用域名，不写默认当前域名，域名只能<=当前域名，比如当前是 blog.test.com，可以作用到.test.com
 		 */
-		setCookie: function(name, value, day, path)
+		setCookie: function(name, value, day, path, domain)
 		{
 			day = day || 30;
 			path = path || '/';
 			var str = name + '=' + value + '; ';
 			if(day) str += 'expires=' + new Date(Date.now() + day * 24 * 3600 * 1000).toGMTString() + '; ';
-			if(path) str += 'path=' + path;
+			if(path) str += 'path=' + path + '; ';
+			if(domain) str += 'domain=' + domain;
 			document.cookie = str;//注意，cookie这样设置并不会覆盖之前所有的cookie！除非同名同path
 		},
 		/**
 		 * 删除cookie
 		 * @param name cookie的名字
 		 * @param path cookie所在的path，默认contextPath
+		 * @param domain cookie作用域名
 		 */
-		delCookie: function(name, path)
+		delCookie: function(name, path, domain)
 		{
-			this.set(name, null, -1, path);
+			this.setCookie(name, null, -1, path, domain);
 		}
 	});
 })(xei);
@@ -945,5 +948,17 @@
 		for(var i=0; i<17; i++) sum += parseInt(cid.charAt(i)) * weights[i];
 		return validates[sum % 11];
 	}
+	/**
+	 * 检测某个身份证ID是否合法
+	 * @params cid 身份证号码，必须是18位
+	 */
+	function checkIdCardValidate(cid)
+	{
+		if(!cid) return false;
+		if(typeof cid !== 'string') return false;
+		if(cid.length !== 18) return false;
+		return getIdCardLastChar(cid) == cid.charAt(17)
+	}
 	xei.getIdCardLastChar = getIdCardLastChar;
+	xei.checkIdCardValidate = checkIdCardValidate;
 })(xei);
