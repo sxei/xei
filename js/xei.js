@@ -803,6 +803,26 @@
 				}
 			}
 			return num;
+		},
+		/**
+		 * 字符串转下划线形式，示例：getParam 转 get_param<br>
+		 * @param str 
+		 * @param flag 默认下划线-，也可以传其它字符
+		 */
+		toUnderline: function(str, flag)
+		{
+			return str.replace(/([A-Z])/g, function(m, $1, idx, str){ return (flag || '_') + $1.toLowerCase(); });
+		},
+		/**
+		 * 字符串转驼峰形式<br>
+		 * 示例一：xei.toHump('get_param')，返回getParam<br>
+		 * 示例二：xei.toHump('font-size','-')，返回fontSize
+		 * @param str
+		 * @param 分割的标志，默认为“_”
+		 */
+		toHump: function(str, flag)
+		{
+			return str.replace(new RegExp((flag || '_')+'(\\w)', 'g'), function(m, $1, idx, str){ return $1.toUpperCase(); });
 		}
 	});
 })(xei);
