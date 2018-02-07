@@ -1,3 +1,4 @@
+// 仓库地址：https://github.com/sxei/xei
 
 //-------------------------最好放在head里面的代码开始----------------------------//
 
@@ -303,31 +304,38 @@
 			if(year instanceof Date) year = year.getFullYear();
 			return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 		},
-		/**
-		 * 获取某一年某一月的总天数，没有任何参数时获取当前月份的
-		 * 方式一：$.getMonthDays();
-		 * 方式二：$.getMonthDays(new Date());
-		 * 方式三：$.getMonthDays(2013, 12);
-		 */
-		getMonthDays: function(date, month)
-		{
-			var y, m;
-			if(date == undefined) date = new Date();
-			if(date instanceof Date)
-			{
-				y = date.getFullYear();
-				m = date.getMonth();
-			}
-			else if(typeof date == 'number')
-			{
-				y = date;
-				m = month-1;
-			}
-			var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // 非闰年的一年中每个月份的天数
-			//如果是闰年并且是2月
-			if(m == 1 && this.isLeapYear(y)) return days[m]+1;
-			return days[m];
-		},
+        /**
+         * 获取某一年某一月的总天数，没有任何参数时获取当前月份的
+         * 方式一：$.getMonthDays();
+         * 方式二：$.getMonthDays(new Date());
+         * 方式三：$.getMonthDays(2017, 2);
+         * 方式四：$.getMonthDays('2017-02');
+         */
+        getMonthDays: function(date, month)
+        {
+            var y, m;
+            if(date == undefined) date = new Date();
+            if(date instanceof Date)
+            {
+                y = date.getFullYear();
+                m = date.getMonth();
+            }
+            else if(typeof date == 'number')
+            {
+                y = date;
+                m = month-1;
+            }
+            else if(typeof date == 'string')
+            {
+                let temp = date.split('-');
+                y = parseInt(temp[0]);
+                m = parseInt(temp[1]) - 1;
+            }
+            var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // 非闰年的一年中每个月份的天数
+            //如果是闰年并且是2月
+            if(m == 1 && this.isLeapYear(y)) return days[m]+1;
+            return days[m];
+        },
 		/**
 		 * 计算2日期之间的天数，用的是比较毫秒数的方法
 		 * 传进来的日期要么是Date类型，要么是yyyy-MM-dd格式的字符串日期
@@ -455,8 +463,37 @@
 		 * 将数据放入缓存，如果不是字符串，自动转字符串
 		 * @param {Object} name
 		 * @param {Object} value
+		 * @Deprecated 已过时，不推荐使用
 		 */
 		setStorage: function(name, value)
+		{
+			this.setLocalStorage(name, value);
+		},
+		/**
+		 * 从缓存中获取数据，如果检测到是字符串转换成的对象，会自动解析成对象
+		 * @param {Object} name
+		 * @param {Object} defaultValue
+		 * @Deprecated 已过时，不推荐使用
+		 */
+		getStorage: function(name, defaultValue)
+		{
+			return this.getLocalStorage(name, defaultValue);
+		},
+		/**
+		 * 从缓存中删除某一个数据
+		 * @param {Object} name
+		 * @Deprecated 已过时，不推荐使用
+		 */
+		delStorage: function(name)
+		{
+			this.delLocalStorage(name);
+		},
+		/**
+		 * 将数据放入缓存，如果不是字符串，自动转字符串
+		 * @param {Object} name
+		 * @param {Object} value
+		 */
+		setLocalStorage: function(name, value)
 		{
 			// 保存之前一律使用JSON.stringify转换，注意，stringify可以正确处理boolean、int、string等非对象类型
 			// 在处理String时，JSON.stringify('abc') == '"abc"'，这样可以使用JSON.parse解析
@@ -467,7 +504,7 @@
 		 * @param {Object} name
 		 * @param {Object} defaultValue
 		 */
-		getStorage: function(name, defaultValue)
+		getLocalStorage: function(name, defaultValue)
 		{
 			var value = localStorage[name] || defaultValue;
 			var rNeedParse = /^(\[.*\]|\{.*\}|true|false|\d+|".*")$/g;
@@ -478,7 +515,7 @@
 		 * 从缓存中删除某一个数据
 		 * @param {Object} name
 		 */
-		delStorage: function(name)
+		delLocalStorage: function(name)
 		{
 			localStorage.removeItem(name);
 		}
