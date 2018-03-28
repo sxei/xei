@@ -72,11 +72,6 @@
 //-------------------------最好放在head里面的代码结束----------------------------//
 
 
-
-//TODO 键值封装
-
-
-
 /**
  * xei对象的初始化
  */
@@ -821,6 +816,21 @@
 				}
 			}
 			return Math.random();
+		},
+		/**
+		 * 获取随机字符串
+		 * @param length 字符串长度
+		 * @param type all 表示所有，number表示仅数字，默认所有
+		 * @return string
+		 */
+		getRandomStr: function(length, type)
+		{
+			length = length || 18;
+			var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz0123456789'.split('');
+			if(type == 'number') chars = '0123456789'.split('');
+			var result = '';
+			for(var i=0; i<length; i++) result += this.getRandom(chars);
+			return result;
 		},
 		/**
 		 * 填充数字到指定长度，比如fixNumber(42, 4)返回'0042'
