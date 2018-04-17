@@ -1,6 +1,6 @@
 {
   "name": "xei",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "一套实用的前端工具、代码集合",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liuxianan/xei.git"
+    "url": "git+https://github.com/sxei/xei.git"
   },
   "keywords": [
     "xei",
@@ -17,10 +17,10 @@
     "工具",
     "集合"
   ],
-  "author": "liuxianan",
+  "author": "sxei",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/liuxianan/xei/issues"
+    "url": "https://github.com/sxei/xei/issues"
   },
-  "homepage": "https://github.com/liuxianan/xei#readme"
+  "homepage": "https://github.com/sxei/xei#readme"
 }
