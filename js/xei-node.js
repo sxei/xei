@@ -64,5 +64,36 @@ export default {
 			}
 			if (cb) cb();
 		});
+	},
+
+
+
+
+
+	/**
+	 * 获取本机局域网IP，如果没找到，返回 127.0.0.1
+	 */
+	getLocalIP() {
+		var interfaces = require('os').networkInterfaces();
+		for(var devName in interfaces) {
+			var iface = interfaces[devName];
+			for(var i=0; i<iface.length; i++) {
+				var alias = iface[i];
+				if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
+					return alias.address;
+				}  
+			}
+		}
+		return '127.0.0.1';
+	},
+	/**
+	 * 使用默认浏览器打开某个URL
+	 * @param {*} url 完整URL
+	 */
+	openUrlByBrowser(url) {
+		if (!url) {
+			throw new Error('url can not be null.');
+		}
+		require('child_process').exec(`${require('os').platform() === 'win32' ? 'start' : 'open'} ${url}`);
 	}
 }
