@@ -438,7 +438,8 @@
 					return $1 == '?' ? '?' : '';
 				});
 			}
-			return url;
+			// 修复 index.htm?&a=1 和 index.htm?#a 这2种情况
+			return url.replace(/\?&/, '?').replace(/\?(#|$)/, '$1');
 		}
 	});
 })(xei);
